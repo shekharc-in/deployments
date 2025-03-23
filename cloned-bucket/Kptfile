@@ -1,0 +1,27 @@
+apiVersion: kpt.dev/v1
+kind: Kptfile
+metadata: # kpt-merge: /cloned-bucket
+  name: cloned-bucket
+  annotations:
+    blueprints.cloud.google.com/title: Google Cloud Storage Bucket blueprint
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: 'kpt.dev|Kptfile|default|cloned-bucket'
+upstream:
+  type: git
+  git:
+    repo: https://github.com/GoogleCloudPlatform/blueprints.git
+    directory: catalog/bucket
+    ref: main
+upstreamLock:
+  type: git
+  git:
+    repo: https://github.com/GoogleCloudPlatform/blueprints.git
+    directory: catalog/bucket
+    ref: main
+    commit: e82a57ad469573699d3c617688ee12c1772b8b1c
+info:
+  description: A Google Cloud Storage bucket
+pipeline:
+  mutators:
+  - image: gcr.io/kpt-fn/apply-setters:v0.1
+    configPath: setters.yaml
